@@ -1,4 +1,4 @@
-#LR1 Parser Compiler
+# LR1 Parser Compiler
 
 This program compiles [lr-parsers](https://en.wikipedia.org/wiki/LR_parser) based on quasi-form descriptions of language grammars.
 Quasi-Form is a modification/extension of [Extended Backus-Naur Form (EBNF)](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form).
