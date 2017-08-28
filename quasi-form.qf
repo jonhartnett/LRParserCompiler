@@ -1,0 +1,20 @@
+START := grammar;
+
+comment := /\\/\\/[^\\n]*/ | /\\/\\*[\\s\\S]*?\\*\\//;
+
+nonTerminal = /([A-Za-z_][A-Za-z0-9_]*)/;
+terminal = /("(?:[^\\\\\\"]|\\\\[\\s\\S])*")/
+         | /('(?:[^\\\\\\']|\\\\[\\s\\S])*')/
+         | /(\\/(?:[^\\\\\\\\\\/]|\\\\[\\s\\S])*\\/[A-Za-z]*)/;
+
+or = expression, '|', expression;
+and = expression, ',', expression;
+optional = expression, '?';
+zeroRepeat = expression, '*';
+oneRepeat = expression, '+';
+group := '(', expression, ')';
+
+expression := nonTerminal | terminal | or | and | optional | zeroRepeat | oneRepeat | group;
+
+rule = nonTerminal, ":"?, '=', expression, ';';
+grammar = (rule | comment)+;

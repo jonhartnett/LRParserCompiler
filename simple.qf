@@ -1,0 +1,56 @@
+/*
+#########
+Simple.qf
+#########
+
+This is the description file for the simple grammar.
+Constructs are defined in Quasi-form, a variant of Extended Backus-Naur Form.
+
+Terminals are enclosed with quotes
+  - single quoted terminals are omitted from the output
+  - regular expressions in the javascript regex literal style are also allowed
+        Example: /gr[ae]y/i
+    regular expressions appear in the output as their capturing groups,
+        expressions with no capturing groups are omitted
+
+NonTerminals are strings without quotes
+
+A,B = concatenation
+A|B = alternation
+A?  = optional
+A*  = [0,∞) repetition
+A+  = [1,∞) repetition
+(A) = grouping
+
+The equals sign (=) is used to define non-terminals.
+A non-terminal may not be redefined after its initial declaration.
+Non-terminals defined using the colon equals (:=) are inlined in the output -- replaced with their children.
+    Example:
+          A  = B; -> [A, B]
+          A := B; -> B
+
+*/
+
+//START is the entry non-terminal
+START = statement_list;
+
+
+statement_list = 'begin.', statement+, 'end.';
+
+statement := while_loop | if_statement | assignment | print;
+
+while_loop = 'while', condition, ':', statement_list;
+
+if_statement = 'if', condition, ':', statement_list, ('else:', statement_list)?;
+
+assignment = identifier, '=', expression, '.';
+
+condition = (identifier | number), /([=<>])/, (identifier | number);
+
+identifier = /([A-H])/;
+
+number = /([1-9][0-9]*)/;
+
+expression = (identifier | number), ( /([+\-*\/])/, (identifier | number) )?;
+
+print = 'print', identifier, '.';
